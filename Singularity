@@ -1,11 +1,6 @@
 Bootstrap: docker
 From: ubuntu:18.04
 
-%setup
-   # make directory for test MPI program
-   mkdir ${SINGULARITY_ROOTFS}/mpitestapp
-   cp mpitest.F90 ${SINGULARITY_ROOTFS}/mpitestapp/
-
 %post
 	apt-get update \
 	&& apt-get install -y wget gnupg \
@@ -191,17 +186,18 @@ From: ubuntu:18.04
     pip3 install pandas==1.0.3
     pip3 install scikit-learn==0.22.1
 
-    # # download, build and install LQCD
-    # #cd /tmp
-    # git clone https://oauth2:3bHxZoCBz8hC8QJKz4u7@gitlab.seis.exa2pro.iti.gr/exa2pro/t6.1-lattice-qcd.git
-    # cp -r t6.1-lattice-qcd /opt
-    # cd /opt/t6.1-lattice-qcd
-    # mkdir build && cd build
-    # cmake ../src
-    # make && make install
+    # download, build and install LQCD
+    #cd /tmp
+    git clone https://oauth2:3bHxZoCBz8hC8QJKz4u7@gitlab.seis.exa2pro.iti.gr/exa2pro/t6.1-lattice-qcd.git
+    cp -r t6.1-lattice-qcd /opt
+    cd /opt/t6.1-lattice-qcd
+    mkdir build && cd build
+    cmake ../src
+    make && make install
 
 %runscript
-    /mpitestapp/mpitest
+    cd /opt/t6.1-lattice-qcd/build/bin
+    ./yang-mills-benchmark.x 4 2
 
 # %test
 #     cd /tmp/starpu-1.3.4
@@ -254,4 +250,10 @@ From: ubuntu:18.04
 	e.g. singularity shell --bind /path/to/application/directory:/path/to/create/application/directory/inside/container exa2pro_mpich.sif
 	In order to check if the container runs properly, you can run the following:
 	singularity run exa2pro_mpich.sif
+	The commant above runs the Yang-Mills theory mini app of the Lattice QCD project (with input 4 and 2 for lattice size and Metropolis sweeps respectively)
+	The output should look like this:
+	Sweep  0   Acceptance rate = 0.746406   S_g = 0.30925750   Error = 0.28442150
+	Sweep  1   Acceptance rate = 0.693652   S_g = 0.40219027   Error = 0.19148873
+	Time elapsed [s] = 0.03800881
+
 
