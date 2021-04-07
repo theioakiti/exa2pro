@@ -86,8 +86,6 @@ From: ubuntu:18.04
     make
     make install
     ldconfig
-    cd /mpitestapp
-    mpifort mpitest.F90 -o mpitest
     cd /tmp
 
 	# # download, build and install StarPU
@@ -255,5 +253,3 @@ From: ubuntu:18.04
 	Sweep  0   Acceptance rate = 0.746406   S_g = 0.30925750   Error = 0.28442150
 	Sweep  1   Acceptance rate = 0.693652   S_g = 0.40219027   Error = 0.19148873
 	Time elapsed [s] = 0.03800881
-
-
