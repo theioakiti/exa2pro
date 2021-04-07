@@ -254,3 +254,4 @@ From: ubuntu:18.04
 	e.g. singularity shell --bind /path/to/application/directory:/path/to/create/application/directory/inside/container exa2pro_mpich.sif
 	In order to check if the container runs properly, you can run the following:
 	singularity run exa2pro_mpich.sif
+
